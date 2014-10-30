@@ -1,0 +1,24 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven { url "http://www.gridgainsystems.com/nexus/content/repositories/external" }
+}
+
+dependencies {
+    compile group: 'org.gridgain', name: 'gridgain-core-ent', version: '6.5.2'
+}
+
+task uberJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'test.Main'
+    }
+    from sourceSets.main.output
+    from configurations.runtime.files.collect {
+        zipTree(it)
+    }
+}
